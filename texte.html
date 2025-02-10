@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahida Musavu</title>
+  <title>Carte digitale</title>
   <!-- Inclusion du CSS de Font Awesome 4.7.0 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
@@ -49,7 +49,7 @@
     /* Style de la carte */
     .card {
       position: relative; /* pour positionner le bouton de contact */
-      background: #ede7f6;
+      background: rgba(233, 211, 160, 0.188);
       border-radius: 16px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       padding: 20px;
@@ -179,14 +179,9 @@
       </a>
       
       <!-- Photo et informations générales -->
-      <img id="photo" src="/mnt/data/image.png" alt="Ahida Musavu">
-      <h1 id="name">Ahida Musavu</h1>
+      <img id="photo" src="" alt="">
+      <h1 id="name"></h1>
       <p id="description">
-        Resident Pastor - ACER Rennes<br>
-        Wife of Elvis MUSAVU and Mom of 2<br>
-        Founder of Femme de Splendeur<br>
-        TV Host Wisdom Room EVTV<br>
-        Director of Meira Academy
       </p>
       <div class="contact" id="contactList">
         <!-- Les contacts seront insérés ici dynamiquement -->
@@ -357,22 +352,7 @@
           
           if (contacts.length === 0) {
             contactList.innerHTML = ` 
-              <a href="tel:0634116935" class="link-button">
-                <img src="https://img.icons8.com/ios-filled/50/4A148C/phone.png" alt="Phone Icon"> 
-                06 34 11 69 35
-              </a>
-              <a href="mailto:ahidamusavu@gmail.com" class="link-button">
-                <img src="https://img.icons8.com/ios-filled/50/4A148C/email.png" alt="Email Icon"> 
-                ahidamusavu@gmail.com
-              </a>
-              <a href="https://instagram.com/ahidamusavu" class="link-button" target="_blank" rel="noopener">
-                <img src="https://img.icons8.com/ios-filled/50/4A148C/instagram-new.png" alt="Instagram Icon">
-                @ahidamusavu
-              </a>
-              <a href="https://facebook.com/AhidaSandraMusavu" class="link-button" target="_blank" rel="noopener">
-                <img src="https://img.icons8.com/ios-filled/50/4A148C/facebook-new.png" alt="Facebook Icon">
-                Ahida Sandra Musavu
-              </a>
+              aucune donnée à afficher
             `;
           } else {
             contacts.forEach(contact => {

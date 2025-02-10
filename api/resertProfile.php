@@ -1,38 +1,52 @@
 <?php
-// api/resetProfile.php
-header('Content-Type: application/json');
-
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 'carte';
-
-$conn = new mysqli($host, $user, $password, $dbname);
-if ($conn->connect_error) {
-    die(json_encode(['error' => 'Connection failed: ' . $conn->connect_error]));
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(403);
+    echo json_encode(["error" => "Accès non autorisé."]);
+    exit();
 }
 
-$name = "Ahida Musavu";
-$description = "Resident Pastor - ACER Rennes<br>Wife of Elvis MUSAVU and Mom of 2<br>Founder of Femme de Splendeur<br>TV Host Wisdom Room EVTV<br>Director of Meira Academy";
-$photo = "";
-$indexBg = "#ffe6f0";
-$cardBg = "#ffffff";
-$contacts = json_encode([
-  ['type' => 'fa-phone', 'content' => '0634116935', 'label' => 'Téléphone'],
-  ['type' => 'fa-envelope', 'content' => 'ahidamusavu@gmail.com', 'label' => 'Email'],
-  ['type' => 'fa-instagram', 'content' => 'https://instagram.com/ahidamusavu', 'label' => 'Instagram'],
-  ['type' => 'fa-facebook', 'content' => 'https://facebook.com/AhidaSandraMusavu', 'label' => 'Facebook']
+$host     = 'localhost';
+$dbuser   = 'root';
+$dbpassword = '';
+$dbname   = 'digital';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $dbuser, $dbpassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo json_encode(["error" => "Connexion BD échouée : " . $e->getMessage()]);
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Valeurs par défaut
+$default_name        = "";
+$default_description = "";
+$default_photo       = "";
+$default_indexBg     = "#ffe6f0";
+$default_cardBg      = "#ffffff";
+$default_contacts    = json_encode([]);
+
+// Mise à jour du profil avec les valeurs par défaut
+$sql = "UPDATE profiles 
+        SET name = :name, description = :description, photo = :photo, indexBg = :indexBg, cardBg = :cardBg, contacts = :contacts 
+        WHERE user_id = :user_id";
+$stmt = $pdo->prepare($sql);
+$result = $stmt->execute([
+    'name'       => $default_name,
+    'description'=> $default_description,
+    'photo'      => $default_photo,
+    'indexBg'    => $default_indexBg,
+    'cardBg'     => $default_cardBg,
+    'contacts'   => $default_contacts,
+    'user_id'    => $user_id
 ]);
 
-$sql = "UPDATE profile 
-        SET name='$name', description='$description', photo='$photo', indexBg='$indexBg', cardBg='$cardBg', contacts='$contacts'
-        WHERE id=1";
-
-if ($conn->query($sql) === TRUE) {
-    echo json_encode(['success' => true]);
+if ($result) {
+    echo json_encode(["success" => true]);
 } else {
-    echo json_encode(['error' => $conn->error]);
+    echo json_encode(["error" => "Échec de la réinitialisation du profil."]);
 }
-
-$conn->close();
 ?>
